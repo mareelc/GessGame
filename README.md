@@ -15,5 +15,6 @@ The Gess board will start and appear as:
 
 <p>A 'piece' is defined as a 3x3 area only containing the current players stones and must move as a unit. If there is a stone in the center of a players piece, it may move any unobstructed distance. If there is no stone in the center of a players piece, it may only move 3 squares. The direction a piece can move is determined by where stones are located on the perimeter of the piece.</p> 
 
-<p>Once a player loses a ring of their own pieces, the game is over.</p>
+<p>A 'ring' is defined as a 3x3 area only containing the current players stones, with no stone in the center, but all perimeter stones occupied.
+  <strong>Once a player loses a ring of their own pieces, the game is over.</strong></p>
 
