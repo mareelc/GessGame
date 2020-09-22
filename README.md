@@ -9,7 +9,10 @@ The Gess board will start and appear as:
 
 <p>To make a move, a string of starting coordintates and ending coordinates must be entered.  For example, to move a players piece from e3 to e6: 
   <strong>gess_game.make_move('e3', 'e6')</strong>.</p>
-  
+ 
+<br>
+[![Gess-game-move.png](https://i.postimg.cc/SsMrpPDF/Gess-game-move.png)](https://postimg.cc/ftMXcBGB)
+
 <p>A 'piece' is defined as a 3x3 area only containing the current players stones and must move as a unit. If there is a stone in the center of a players piece, it may move any unobstructed distance. If there is no stone in the center of a players piece, it may only move 3 squares. The direction a piece can move is determined by where stones are located on the perimeter of the piece.</p> 
 
 <p>Once a player loses a ring of their own pieces, the game is over.</p>
