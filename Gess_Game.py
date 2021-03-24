@@ -20,9 +20,8 @@ class GessGame:
 
     def create_board(self):
         """
-        A method that initializes a board for the game with starting
+        Initializes a board for the game with starting
         positions of all pieces.
-
         :return: self._myboard with starting positions of 'w' and 'b'.
         """
         self._myboard = [['_' for row in range(20)] for column in range(20)]
@@ -50,32 +49,28 @@ class GessGame:
         return self._myboard
 
     def get_my_board(self):
-        """Returns current state of the GessGame board."""
         return self._myboard
 
     def get_game_state(self):
-        """Returns the current state of the game."""
         return self._game_state
 
     def set_game_state(self, state):
-        """Sets the current state of the game to 'UNFINISHED', 'BLACK_WON', or 'WHITE_WON'."""
+        """Sets the current state of the game."""
         if state == "UNFINISHED" or state == "BLACK_WON" or state == "WHITE_WON":
             self._game_state = state
-        return
 
     def get_player_turn(self):
-        """A method that returns the current player turn."""
         return self._player_turn
 
     def set_player_turn(self):
-        """A method that sets the player turn to opposing player."""
+        """Sets the player turn to opposing player."""
         if self.get_player_turn() == 'BLACK':
             self._player_turn = 'WHITE'
         else:
             self._player_turn = 'BLACK'
 
     def get_player_val(self):
-        """A method that returns the value of current player."""
+        """Returns the value of current player."""
         if self.get_player_turn() == 'BLACK':
             return self._b_value
         else:
@@ -107,7 +102,7 @@ class GessGame:
 
     def translate(self, val):
         """
-        A method that translates user input of a piece to its corresponding
+        Translates user input of a piece to its corresponding
         index value for row or column from values stored in self._columns or
         self._rows.
         :return: Index value of corresponding row or column.
@@ -125,7 +120,7 @@ class GessGame:
 
     def foot_values(self, row, col):
         """
-        A method that stores the values associated with the coordinates of the
+        Stores the values associated with the coordinates of the
         starting footprint.
         :return: List of values in the starting footprint.
         """
@@ -140,7 +135,7 @@ class GessGame:
 
     def get_footprint(self, row, col):
         """
-        A method that creates the location of the footprint of each
+        Creates the location of the footprint of each
         piece by adding or subtracting to the starting center of a piece.
         :return: List of locations of the footprint.
         """
@@ -157,7 +152,7 @@ class GessGame:
 
     def move_footprint(self, start_row, start_col, end_row, end_col, temp_board):
         """
-        A method that moves the footprint of the starting piece to the
+        Moves the footprint of the starting piece to the
         footprint of the ending piece if valid move established.
         """
         board = self._myboard
@@ -184,7 +179,7 @@ class GessGame:
 
     def make_move(self, start, end):
         """
-        A method that validates user input, calls to translate to translate
+        A driver method that validates user input, calls to translate to translate
         input, communicates with Piece class to get valid moves,
         calls to opposing pieces check, calls to move_footprint to move
         the piece,calls to ring_check to ensure the current player cannot
@@ -194,14 +189,14 @@ class GessGame:
         """
         # Check if game over.
         if self.get_game_state() != 'UNFINISHED':
-            return False
+            return "GAME OVER"
         # Check that user input is valid.
         if start[0].lower() not in self._columns or\
                 end[0].lower() not in self._columns:
-            return False
+            return "Invalid Coordinate - Try Again"
         if start[1:].lower() not in self._rows or \
                 end[1:].lower() not in self._rows:
-            return False
+            return "Invalid Coordinate - Try Again"
 
         # Translate user input to row and column coordinates.
         start_col = self.translate(start[0])
@@ -217,13 +212,12 @@ class GessGame:
         valid_moves = piece.valid_moves(self.get_player_val(), temp_board)
 
         if not self.opposing_pieces_check(start_row, start_col):
-            return False
+            return "Invalid - Opposing Pieces in Footprint"
 
         # Check end coordinates valid.
-        if [end_row, end_col] in valid_moves:
-            self.move_footprint(start_row, start_col, end_row, end_col, temp_board)
-        else:
-            return False
+        if [end_row, end_col] not in valid_moves:
+            return "Invalid Move - Try again"
+        self.move_footprint(start_row, start_col, end_row, end_col, temp_board)
 
         # If current player loses a ring, move is not valid.
         # If opposing player loses a ring, game won by current player.
@@ -232,20 +226,20 @@ class GessGame:
                 self.set_game_state('BLACK_WON')
             else:
                 if self.ring_check('b') == []:
-                    return False
+                    return "Invalid Move - Ring Lost - Try Again"
         else:
             if self.ring_check('b') == []:
                 self.set_game_state('WHITE_WON')
             else:
                 if self.ring_check("w") == []:
-                    return False
+                    return "Invalid Move - Ring Lost - Try Again"
         self.set_player_turn()
         self.print_board()
-        return True
+        return "Valid Move"
 
     def opposing_pieces_check(self, row, col):
         """
-        A method that checks for opposing player pieces in the
+        Checks for opposing player pieces in the
         footprint of the current player's piece.
         :return: False if opposing player value found in current player
                 piece footprint, else True.
@@ -265,7 +259,7 @@ class GessGame:
 
     def ring_check(self, player):
         """
-        A method that checks for the presence of a ring for both players'
+        Checks for the presence of a ring for both players'
         pieces by scanning the board and treating each coordinate as a
         center of a piece.
         :return: Return a list of coordinates for where a ring is present
@@ -293,7 +287,7 @@ class GessGame:
 
     def resign_game(self):
         """
-        A method that resigns the game for a player by referring
+        Resigns the game for a player by referring
         to the current player turn and sets game state to
         opposing player winning.
         :return: Game state after player resigns.
@@ -308,18 +302,11 @@ class GessGame:
 def main():
     gess_game = GessGame()
     gess_game.print_board()
-    gess_game.get_game_state()
-
-    print(gess_game.make_move('e3', 'e6'))
-    print(gess_game.get_player_turn())
-    print(gess_game.make_move('r18', 's18'))
-    print(gess_game.make_move('e6', 'e9'))
-    print(gess_game.make_move('f15', 'f12'))
-    print(gess_game.get_player_turn())
-    print(gess_game.make_move('c3', 'c5'))
-    print(gess_game.make_move('o18', 'q16'))
-    print(gess_game.make_move('h3', 'e6'))
-    print(gess_game.get_game_state())
+    while gess_game.get_game_state() == "UNFINISHED":
+        print("Current Turn: " + gess_game.get_player_turn())
+        start = input("Enter starting coordinate: ")
+        end = input("Enter ending coordinate: ")
+        print(gess_game.make_move(start, end))
 
 if __name__ == '__main__':
     main()
