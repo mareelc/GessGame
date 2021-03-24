@@ -14,7 +14,7 @@ the console will prompt:
     <ul>type 'c16' and hit enter.</ul></ul>
 </p>
 <br> 
-<img src="https://github.com/heinl11/GessGame/blob/main/gess_move.gif" />
+<img src="https://github.com/heinl11/GessGame/blob/master/gess_move.gif" />
 <p>A 'piece' is defined as a 3x3 area only containing the current players stones and must move as a unit. If there is a stone in the center of a players piece, it may move any unobstructed distance. If there is no stone in the center of a players piece, it may only move 3 squares. The direction a piece can move is determined by where stones are located on the perimeter of the piece.</p> 
 
 <p>A 'ring' is defined as a 3x3 area only containing the current players stones, with no stone in the center, but all perimeter stones occupied.</p>
